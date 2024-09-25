@@ -1,0 +1,287 @@
+<!DOCTYPE>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>JeN Extension</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 400px;
+            --progress-value: 0;
+        }
+
+        h1, h2 {
+            margin: 0 5px;
+        }
+
+        .font-size-s {
+            font-size: 13px;
+        }
+
+        .font-size-m {
+            font-size: 15px;
+        }
+
+        .font-size-l {
+            font-size: 17px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrapper {
+            padding: 10px 5px;
+        }
+
+        .header {
+            margin: 5px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dataBlock {
+            display: flex;
+            gap: 10px;
+        }
+
+        .customBlock {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            min-width: 1px;
+            flex-shrink: 1;
+            flex-grow: 1;
+        }
+
+        .inputBlock {
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 1;
+            flex-grow: 1;
+            min-width: 1px;
+        }
+
+        .inputBlock_checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-top: 5px;
+        }
+
+        .label {
+            color: #333;
+            margin: 3px 0;
+            white-space: nowrap;
+        }
+
+        .checkbox {
+            margin: 0;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .button {
+            background: white;
+            border: 1px solid #0064b0;
+            border-radius: 15px;
+            min-height: 25px;
+            align-self: center;
+            padding: 0 15px;
+        }
+
+        .button:hover {
+            border-color: #006aff;
+        }
+
+        .button:active {
+            background: rgba(0, 106, 255, 0.1);
+        }
+
+        .input {
+            border: none;
+            border-bottom: 1px solid #0064b0;
+            outline: none;
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 1px;
+        }
+
+        .input:focus-within {
+            border-bottom: 1px solid #006aff;
+        }
+
+        .list {
+            padding: 3px 5px;
+            margin: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .remove-all {
+            align-self: flex-end;
+            color: #0064b0;
+            cursor: pointer;
+            padding-right: 5px;
+        }
+
+        .remove-all:hover {
+            color: #006aff;
+            text-decoration: underline;
+        }
+
+        .branchItem {
+            display: flex;
+            cursor: pointer;
+            box-sizing: border-box;
+            justify-content: space-between;
+            gap: 5px;
+            margin: 3px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .branchItem_status-process:before {
+            content: '\200b';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: var(--progress-value, 0);
+            background: #006aff;
+            z-index: 10;
+        }
+
+        .branchItem_status-fail {
+            background-color: #ff00002b;
+        }
+
+        .branchItem_status-process {
+            background-color: #ffff002b;
+        }
+
+        .branchItem_status-success {
+            background-color: #0080002b;
+        }
+
+        .branchItem_status-empty {
+            cursor: default;
+            background-color: #cccccc2b;
+        }
+
+        .branchItem_status-fail:hover {
+            background-color: #ff000042;
+        }
+
+        .branchItem_status-process:hover {
+            background-color: #ffff0042;
+        }
+
+        .branchItem_status-success:hover {
+            background-color: #00800042;
+        }
+
+        .branchItem_status-empty:hover {
+            background-color: #cccccc42;
+        }
+
+        .branchItem__name {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 3px 5px;
+        }
+
+        .dropdown {
+            display: flex;
+            position: relative;
+        }
+
+        .dropdownPopup {
+            display: flex;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 1px 3px 1px #8d8d8d;
+            border-radius: 0 0 5px 5px;
+            max-height: 130px;
+            z-index: 20;
+        }
+
+        .dropdownItems {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow: auto;
+        }
+
+        .dropdownItems__item {
+            padding: 3px 5px;
+            margin: 3px 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-grow: 1;
+        }
+
+        .dropdownItems__item:hover {
+            background-color: #cccccc42;
+        }
+    </style>
+    <script src="/dist/indexHtml.js"></script>
+</head>
+<body>
+<div class="wrapper font-size-m">
+    <div class="logo">
+        <img src="images/icon.png" alt="JeN">
+        <h2>JeN</h2>
+    </div>
+    <div class="header">
+        <div class="dataBlock">
+            <div class="inputBlock font-size-s">
+                <label for="branchName" class="label">Введите название ветки:</label>
+                <input id="branchName" class="input font-size-l">
+                <div class="inputBlock_checkbox font-size-m">
+                    <input type="checkbox" class="checkbox" id="isBranchEqual">
+                    <label for="isBranchEqual" class="label">Ветка для wasaby_controls и engine</label>
+                </div>
+            </div>
+            <button id="addBranchButton" class="button font-size-l">Следить</button>
+        </div>
+        <div class="customBlock">
+            <input type="checkbox" class="checkbox" id="isCustomBranch">
+            <label for="isCustomBranch" class="label"
+                   title="branch_(NAME)_2x.xxxx. NAME - имя ветки, которое необходимо передать. Найти можно перейдя в jenkins">
+                Другая ветка в jenkins:
+            </label>
+            <div class="dropdown hidden" id="dropdown">
+                <input id="customBranchName" class="input font-size-m">
+                <div class="dropdownPopup font-size-s hidden" id="dropdownPopup" tabindex="-1"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <ul id="branchList" class="list"></ul>
+        <span id="removeAllButton" class="font-size-s remove-all hidden">Удалить все</span>
+    </div>
+</div>
+</body>
+</html>
